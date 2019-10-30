@@ -26,7 +26,7 @@
                             Читать
                         </v-btn>
 
-                        <v-btn color="orange" text :to="{name:'book', params{id:book.id}}">
+                        <v-btn color="orange" text>
                             Подробнее
                         </v-btn>
                     </v-card-actions>
