@@ -1,18 +1,8 @@
+import Vue from 'vue'
 export default{
     
     state: {
-        books:[
-            {
-                id:"asfasfasfasf",
-                title:'Возвышение Хоруса',
-                autor:'Дэн Абнет',
-                description: "Огромные армии Императора Человечества покоряют звезды в Великом крестовом походе, подобных которому Галактика еще не видела. Свет единства на острие меча во тьму несут легионы Космического Десанта - непобедимые воинства под стягами богоподобных примархов, бессмертных сыновей самого Императора. Занимается заря нового Золотого века, эры безраздельного господства человека в космосе. И никто еще не слышит первых колоколов надвигающейся войны. Войны столь вероломной и ужасной, что и тысячи лет спустя о ней будут вспоминать с содроганием…",
-                imagId: 'http://www.100book.ru/b2411204.jpg',
-                rating: 4,
-                ratingCount: 100,
-
-            }
-        ]
+        books:[],
     },
     mutations: {
         SET_BOOKS(state, payload){
@@ -20,6 +10,29 @@ export default{
         },
         
     },
+    actions:{
+        LOAD_BOOKS({commit}){
+            Vue.$db.collections('books')
+            .get()
+            .then(querySnapshot => {
+                let books = []
+                querySnapshot.forEach(s => {
+                    const data = s.data()
+                    let book = {
+                        id: s.id,
+                        title: data.title,
+                        description: data.description,
+                        imageUrl: data.imageUrl,
+                        rating: data.rating,
+                        ratingCount: data.ratingCount,
+                        autor: data.autor,
+                        bookDownload: data.bookDownload
+                    }
+                });
+            })
+            .catch(error => console.log(error))
+        }
+    }, 
     getters:{
         getBooks: (state) => state.books,
     }

@@ -5,11 +5,16 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import firebaseConfig from './config/firebase'
 import firebase from 'firebase'
-
+import 'firebase/firestore'
 Vue.config.productionTip = false
 
-firebase.initializeApp(firebaseConfig);
+const firebase =  firebase.initializeApp(firebaseConfig);
+const db = firebaseApp.firestore()
+db.settings({
+  timestampsInSnapshots: true
+});
 
+Vue.$db = db
 new Vue({
   router,
   store,
